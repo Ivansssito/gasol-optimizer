@@ -13,6 +13,7 @@ from smt_encoding.instructions.push_basic import PushBasic
 from smt_encoding.instructions.store_uninterpreted import StoreUninterpreted
 from smt_encoding.instructions.swapk_basic import SwapKBasic
 from smt_encoding.instructions.swapn_basic import SwapNBasic
+from smt_encoding.instructions.exchange_basic import ExchangeBasic
 from smt_encoding.instructions.uninterpreted_instruction import UninterpretedInstruction, Instruction_JSON_T
 from smt_encoding.instructions.basic_instruction import BasicInstruction
 from smt_encoding.instructions.encoding_instruction import ThetaValue, EncodingInstruction
@@ -70,18 +71,32 @@ class InstructionFactory:
             swapn_match = re.fullmatch("SWAP([0-9]+), SWAP([0-9]+)", name)
             dupn_match = re.fullmatch("DUP([0-9]+), SWAP([0-9]+)", name)
 
+            exchange_match = re.fullmatch("DUP([0-9]+), SWAP([0-9]+), SWAP([0-9]+), SWAP([0-9]+)", name)
+
             if swap_match is not None:
                 k = int(swap_match.group(1))
                 instance = SwapKBasic(self._next_theta_value, k)
+
             elif dup_match is not None:
                 k = int(dup_match.group(1))
                 instance = DupKBasic(self._next_theta_value, k)
+
+            #SWAP IVÁN
             elif swapn_match is not None:
-                k = int(swap_match.group(1))
-                instance = SwapNBasic(self._next_theta_value, k)
+                n = int(swapn_match.group(1))
+                instance = SwapNBasic(self._next_theta_value, n)
+
+            #DUPN IVÁN
             elif dupn_match is not None:
-                k = int(dup_match.group(1))
-                instance = DupNBasic(self._next_theta_value, k)
+                n = int(dupn_match.group(1))
+                instance = DupNBasic(self._next_theta_value, n)
+
+            #EXCHANGE IVÁN
+            elif exchange_match is not None:
+                n = int(exchange_match.group(1))
+                m = int(exchange_match.group(2))
+                instance = ExchangeBasic(self._next_theta_value, n, m)
+
             else:
                 raise ValueError(name + " instruction not recognized")
 
