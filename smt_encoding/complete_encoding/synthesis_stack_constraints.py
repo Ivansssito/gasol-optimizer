@@ -71,6 +71,15 @@ def swapn_encoding(j: int, theta_swapn: ThetaValue, sf: SynthesisFunctions, bs: 
     return AssertHard(add_implies(left_term, right_term))
 
 
+#AÑADIDO POR IVÁN
+def exchange_encoding(j: int, theta_exchange: ThetaValue, sf: SynthesisFunctions, bs: int,  n: int, m: int) -> AssertHard:
+    left_term = add_eq(sf.t(j), sf.theta_value(theta_exchange))
+    right_term = add_and(sf.u(m, j), sf.u(m, j + 1), sf.u(n, j + 1), add_eq(sf.x(n, j + 1), sf.x(m, j)),
+                         add_eq(sf.x(m, j + 1), sf.x(n, j)),
+                         move(sf, j, 0, n - 1, 0), move(sf, j, n + 1, m - 1, 0), move(sf, j, m + 1, bs - 1, 0))
+    return AssertHard(add_implies(left_term, right_term))
+
+
 def pop_encoding(j: int, theta_pop: ThetaValue, sf: SynthesisFunctions, bs: int) -> AssertHard:
     left_term = add_eq(sf.t(j), sf.theta_value(theta_pop))
     right_term = add_and(sf.u(0, j), add_not(sf.u(bs - 1, j + 1)), move(sf, j, 1, bs - 1, -1))
