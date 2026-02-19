@@ -113,6 +113,13 @@ class FullEncoding:
             encoding_function = dupk_encoding_empty if self._flags.empty else dupk_encoding
             stack_encoding.register_function_for_encoding(dupk_instruction, encoding_function, k=k)
 
+        #FUNCIÓN DUPN IVÁN
+        for k in range(constants.max_k_dup + 1, self.bs):
+            dupn_instruction = self._instruction_factory.create_instruction_name(''.join(('DUPN', str(n))))
+            basic_instructions.append(dupn_instruction)
+            encoding_function = dupn_encoding
+            stack_encoding.register_function_for_encoding(dupn_instruction, encoding_function, n=n)
+
         for k in range(1, min(self.bs, constants.max_k_swap + 1)):
             swapk_instruction = self._instruction_factory.create_instruction_name(''.join(('SWAP', str(k))))
             basic_instructions.append(swapk_instruction)
