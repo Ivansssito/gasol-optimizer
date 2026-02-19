@@ -13,7 +13,7 @@ from smt_encoding.complete_encoding.synthesis_initialize_variables import stack_
     restrict_t_domain, \
     expressions_are_distinct, initialize_stack_variables, stack_encoding_for_terminal, stack_encoding_for_position_empty
 from smt_encoding.complete_encoding.synthesis_stack_constraints import push_basic_encoding, pop_encoding, nop_encoding, \
-    swapk_encoding, dupk_encoding, non_comm_function_encoding, comm_function_encoding, store_stack_function_encoding, \
+    swapk_encoding, swapn_encoding, dupk_encoding, dupn_encoding, non_comm_function_encoding, comm_function_encoding, store_stack_function_encoding, \
     pop_uninterpreted_encoding, push_basic_encoding_empty, pop_uninterpreted_encoding_empty, nop_encoding_empty, \
     swapk_encoding_empty, dupk_encoding_empty, non_comm_function_encoding_empty, comm_function_encoding_empty, \
     store_stack_function_encoding_empty, pop_encoding_empty
@@ -113,18 +113,25 @@ class FullEncoding:
             encoding_function = dupk_encoding_empty if self._flags.empty else dupk_encoding
             stack_encoding.register_function_for_encoding(dupk_instruction, encoding_function, k=k)
 
-        #FUNCIÓN DUPN IVÁN
+        #AÑADIDO POR IVÁN
         for k in range(constants.max_k_dup + 1, self.bs):
-            dupn_instruction = self._instruction_factory.create_instruction_name(''.join(('DUPN', str(n))))
+            dupn_instruction = self._instruction_factory.create_instruction_name(''.join(('DUPN', str(k))))
             basic_instructions.append(dupn_instruction)
             encoding_function = dupn_encoding
-            stack_encoding.register_function_for_encoding(dupn_instruction, encoding_function, n=n)
+            stack_encoding.register_function_for_encoding(dupn_instruction, encoding_function, k=k)
 
         for k in range(1, min(self.bs, constants.max_k_swap + 1)):
             swapk_instruction = self._instruction_factory.create_instruction_name(''.join(('SWAP', str(k))))
             basic_instructions.append(swapk_instruction)
             encoding_function = swapk_encoding_empty if self._flags.empty else swapk_encoding
             stack_encoding.register_function_for_encoding(swapk_instruction, encoding_function, k=k)
+
+        #AÑADIDO POR IVÁN
+        for k in range(constants.max_k_swap + 1, self.bs):
+            swapn_instruction = self._instruction_factory.create_instruction_name(''.join(('SWAPN', str(k))))
+            basic_instructions.append(swapn_instruction)
+            encoding_function = swapn_encoding
+            stack_encoding.register_function_for_encoding(swapn_instruction, encoding_function, k=k)
 
         self._basic_instructions = basic_instructions
 
