@@ -38,7 +38,7 @@ def dupk_encoding_empty(j: int, theta_dupk: ThetaValue, sf: SynthesisFunctions, 
     return AssertHard(add_implies(left_term, right_term))
 
 
-#AÑADIDO POR IVÁN
+#AÑADIDO POR IVÁN (DUPN_ENCODING)
 def dupn_encoding(j: int, theta_dupn: ThetaValue, sf: SynthesisFunctions, bs: int, n: int) -> AssertHard:
     left_term = add_eq(sf.t(j), sf.theta_value(theta_dupn))
     right_term = add_and(add_not(sf.u(bs - 1, j)), sf.u(n - 1, j), sf.u(0, j + 1),
@@ -62,7 +62,7 @@ def swapk_encoding_empty(j: int, theta_swapk: ThetaValue, sf: SynthesisFunctions
     return AssertHard(add_implies(left_term, right_term))
 
 
-#AÑADIDO POR IVÁN
+#AÑADIDO POR IVÁN (SWAPN_ENCODING)
 def swapn_encoding(j: int, theta_swapn: ThetaValue, sf: SynthesisFunctions, bs: int,  n: int) -> AssertHard:
     left_term = add_eq(sf.t(j), sf.theta_value(theta_swapn))
     right_term = add_and(sf.u(n, j), sf.u(0, j + 1), add_eq(sf.x(0, j + 1), sf.x(n, j)),
@@ -71,7 +71,7 @@ def swapn_encoding(j: int, theta_swapn: ThetaValue, sf: SynthesisFunctions, bs: 
     return AssertHard(add_implies(left_term, right_term))
 
 
-#AÑADIDO POR IVÁN
+#AÑADIDO POR IVÁN (EXCHANGE_ENCODING)
 def exchange_encoding(j: int, theta_exchange: ThetaValue, sf: SynthesisFunctions, bs: int,  n: int, m: int) -> AssertHard:
     left_term = add_eq(sf.t(j), sf.theta_value(theta_exchange))
     right_term = add_and(sf.u(m, j), sf.u(m, j + 1), sf.u(n, j + 1), add_eq(sf.x(n, j + 1), sf.x(m, j)),
