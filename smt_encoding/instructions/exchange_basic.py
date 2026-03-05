@@ -20,12 +20,12 @@ class ExchangeBasic(BasicInstruction):
 
     @property
     def id(self):
-        return "EXCHANGE" + str(self._n) + str(self._m)
+        return "EXCHANGE " + str(self._n) + ' ' + str(self._m)
 
 
     @property
     def opcode_name(self):
-        return "EXCHANGE" + str(self._n) + str(self._m)
+        return "EXCHANGE " + str(self._n) + ' ' + str(self._m)
 
 
     @property

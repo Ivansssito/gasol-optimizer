@@ -68,30 +68,30 @@ class InstructionFactory:
             swap_match = re.fullmatch("SWAP([0-9]+)", name)
             dup_match = re.fullmatch("DUP([0-9]+)", name)
 
-            swapn_match = re.fullmatch("SWAP([0-9]+), SWAP([0-9]+)", name)
-            dupn_match = re.fullmatch("DUP([0-9]+), SWAP([0-9]+)", name)
+            swapn_match = re.fullmatch("SWAPN([0-9]+)", name)
+            dupn_match = re.fullmatch("DUPN([0-9]+)", name)
 
-            exchange_match = re.fullmatch("DUP([0-9]+), SWAP([0-9]+), SWAP([0-9]+), SWAP([0-9]+)", name)
+            exchange_match = re.fullmatch(r"EXCHANGE ([0-9]+) ([0-9]+)", name)
 
             if swap_match is not None:
                 k = int(swap_match.group(1))
                 instance = SwapKBasic(self._next_theta_value, k)
+                
+            #SWAPN 
+            elif swapn_match is not None:
+                n = int(swapn_match.group(1))
+                instance = SwapNBasic(self._next_theta_value, n)
 
             elif dup_match is not None:
                 k = int(dup_match.group(1))
                 instance = DupKBasic(self._next_theta_value, k)
 
-            #SWAP IVÁN
-            elif swapn_match is not None:
-                n = int(swapn_match.group(1))
-                instance = SwapNBasic(self._next_theta_value, n)
-
-            #DUPN IVÁN
+            #DUPN 
             elif dupn_match is not None:
                 n = int(dupn_match.group(1))
                 instance = DupNBasic(self._next_theta_value, n)
 
-            #EXCHANGE IVÁN
+            #EXCHANGE 
             elif exchange_match is not None:
                 n = int(exchange_match.group(1))
                 m = int(exchange_match.group(2))

@@ -113,7 +113,7 @@ class FullEncoding:
             encoding_function = dupk_encoding_empty if self._flags.empty else dupk_encoding
             stack_encoding.register_function_for_encoding(dupk_instruction, encoding_function, k=k)
 
-        #AÑADIDO POR IVÁN (DUPN)
+        #DUPN
         for n in range(constants.max_k_dup + 1, self.bs):
             dupn_instruction = self._instruction_factory.create_instruction_name(''.join(('DUPN', str(n))))
             basic_instructions.append(dupn_instruction)
@@ -126,7 +126,7 @@ class FullEncoding:
             encoding_function = swapk_encoding_empty if self._flags.empty else swapk_encoding
             stack_encoding.register_function_for_encoding(swapk_instruction, encoding_function, k=k)
 
-        #AÑADIDO POR IVÁN (SWAPN)
+        #SWAPN
         for n in range(constants.max_k_swap + 1, self.bs):
             swapn_instruction = self._instruction_factory.create_instruction_name(''.join(('SWAPN', str(n))))
             basic_instructions.append(swapn_instruction)
@@ -134,15 +134,14 @@ class FullEncoding:
             stack_encoding.register_function_for_encoding(swapn_instruction, encoding_function, n=n)
 
         
-        #AÑADIDO POR IVÁN (EXCHANGE)
-        for n in range(1, 14):
-            for m in range(n + 1, 30):
+        #EXCHANGE
+        for n in range(1, min(14, self.bs)):
+            for m in range(n + 1, min(30, self.bs)):
                 if n + m <= 30:
-                    exchange_instruction = self._instruction_factory.create_instruction_name(''.join(('EXCHANGE_', str(n), '_', str(m))))
+                    exchange_instruction = self._instruction_factory.create_instruction_name(''.join(('EXCHANGE ', str(n), ' ', str(m))))
                     basic_instructions.append(exchange_instruction)
                     encoding_function = exchange_encoding
                     stack_encoding.register_function_for_encoding(exchange_instruction, encoding_function, n=n, m=m)
-
 
         self._basic_instructions = basic_instructions
 
