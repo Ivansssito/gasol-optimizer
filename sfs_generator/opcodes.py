@@ -246,7 +246,7 @@ def get_opcode(opcode):
         if opcode == 'SWAPN' + str(n):
             return [hex(0xe7), n + 1, n + 1]
 
-    #check EXCHANGE (n + m <= 30 here)
+    #check EXCHANGE (n + m <= 30 here?)
     for n in range(1, 15):
         for m in range(n + 1, 31):
             if n + m <= 30 and opcode == 'EXCHANGE ' + str(n) + ' ' + str(m):
